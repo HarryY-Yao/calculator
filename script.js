@@ -46,6 +46,7 @@ const decimalBtn = document.querySelector("#decimal");
 // button functionality
 
 let decimalprsnt = false;
+let activated = false;
 
 decimalBtn.addEventListener("click", () => {
     if (!(isDecimal(onScreen.textContent))) {
@@ -58,9 +59,11 @@ decimalBtn.addEventListener("click", () => {
 
 addBtn.addEventListener("click", () => {
     if (!(Number(isNaN(onScreen.textContent)))) {
-    if (lastPressed == divideBtn || lastPressed == multiplyBtn || lastPressed == subtractBtn) {
+    if (lastPressed && lastPressed != equalsBtn) {
+        lastPressed.classList.toggle("active");
         lastPressed = addBtn;
         operation = add;
+        lastPressed.classList.toggle("active");
     }
     
     if (lastPressed != addBtn) {
@@ -87,9 +90,11 @@ addBtn.addEventListener("click", () => {
 
 subtractBtn.addEventListener("click", () => {
     if (!(Number(isNaN(onScreen.textContent)))) {
-    if (lastPressed == divideBtn || lastPressed == multiplyBtn || lastPressed == addBtn) {
+    if (lastPressed && lastPressed != equalsBtn) {
+        lastPressed.classList.toggle("active");
         lastPressed = subtractBtn;
         operation = subtract;
+        lastPressed.classList.toggle("active");
     }
 
 
@@ -117,9 +122,11 @@ subtractBtn.addEventListener("click", () => {
 
 divideBtn.addEventListener("click", () => {
     if (!(Number(isNaN(onScreen.textContent)))) {
-    if (lastPressed == addBtn || lastPressed == multiplyBtn || lastPressed == subtractBtn) {
-        lastPressed = divideBtn;
-        operation = divide;
+        if (lastPressed && lastPressed != equalsBtn) {
+            lastPressed.classList.toggle("active");
+            lastPressed = divideBtn;
+            operation = divide;
+            lastPressed.classList.toggle("active");
     }
 
 
@@ -147,9 +154,11 @@ divideBtn.addEventListener("click", () => {
 
 multiplyBtn.addEventListener("click", () => {
     if (!(Number(isNaN(onScreen.textContent)))) {
-    if (lastPressed == divideBtn || lastPressed == addBtn || lastPressed == subtractBtn) {
-        lastPressed = multiplyBtn;
-        operation = multiply;
+        if (lastPressed && lastPressed != equalsBtn) {
+            lastPressed.classList.toggle("active");
+            lastPressed = multiplyBtn;
+            operation = multiply;
+            lastPressed.classList.toggle("active");
     }
     
     
@@ -161,11 +170,12 @@ multiplyBtn.addEventListener("click", () => {
             number1 = undefined;
             number2 = undefined;
         }
+        operation = multiply;
+        
         if (lastPressed && lastPressed != equalsBtn) {
             lastPressed.classList.toggle("active");
         }
         
-        operation = multiply;
         lastPressed = multiplyBtn;
         lastPressed.classList.toggle("active");
         if (onScreen.textContent.length > 0) {
@@ -188,12 +198,12 @@ equalsBtn.addEventListener("click", () => {
         result = Number(result).toExponential(2)
     
     } else if (result.length > 9) {
-        result = Math.round(Number(result) * 10 ** Math.abs(10 - result.length)) / 10 ** Math.abs(10 - result.length);
+        result = Math.round((Number(result) * 10 ** Math.abs(10 - result.length)) / 10 ** Math.abs(10 - result.length));
     }
     onScreen.textContent = result;
     }
     if (lastPressed) {
-        lastPressed.classList.toggle("active");
+        lastPressed.classList.remove("active");
     }
     number1 = 0;
     number2 = 0;
@@ -214,6 +224,8 @@ clear.addEventListener("click", () => {
         decimalBtn.classList.toggle("decimalpresent");
         decimalprsnt = false;
     }
+    if (lastPressed && lastPressed != equalsBtn) {
+        lastPressed.classList.remove("active")};
 });
 
 let display = function(button) {
@@ -223,7 +235,7 @@ let display = function(button) {
 
 numButtons.forEach((button) => {
     button.addEventListener("click", () =>{
-        if (onScreen.textContent.length < 9) {
+        if (onScreen.textContent.length <= 10) {
             if (lastPressed) {
                 onScreen.textContent = "";
                 if (decimalprsnt) {
@@ -232,7 +244,7 @@ numButtons.forEach((button) => {
                 }
             }
         if (lastPressed && lastPressed != equalsBtn) {       
-        lastPressed.classList.toggle("active");
+        lastPressed.classList.remove("active");
         }
         lastPressed = undefined;
         display(button)
