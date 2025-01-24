@@ -14,6 +14,14 @@ let divide = function(x, y) {
     return x / y;
 }
 
+let isDecimal = function(str) {
+    for (let i = 0; i < str.length; i++) {
+        if(str.charAt(i) == ".") {
+            return true;
+        }}
+    return false;
+}
+
 let number1;
 let number2;
 let operation;
@@ -32,7 +40,20 @@ const addBtn = document.querySelector("#add");
 const subtractBtn = document.querySelector("#subtract");
 const multiplyBtn = document.querySelector("#multiply");
 const divideBtn = document.querySelector("#divide");
-const equalsBtn = document.querySelector("#equals")
+const equalsBtn = document.querySelector("#equals");
+const decimalBtn = document.querySelector("#decimal");
+
+// button functionality
+
+let decimalprsnt = false;
+
+decimalBtn.addEventListener("click", () => {
+    if (!(isDecimal(onScreen.textContent))) {
+        onScreen.textContent += decimalBtn.textContent;
+        decimalprsnt = true;
+        decimalBtn.classList.toggle("decimalpresent");
+    }
+});
 
 
 addBtn.addEventListener("click", () => {
@@ -178,6 +199,9 @@ equalsBtn.addEventListener("click", () => {
     number2 = 0;
     operation = null;
     lastPressed = equalsBtn;
+    if (decimalprsnt) {
+        decimalBtn.classList.toggle("decimalpresent");
+    }
 }});
 
 clear.addEventListener("click", () => {
@@ -185,6 +209,9 @@ clear.addEventListener("click", () => {
     number1 = 0;
     number2 = 0;
     operation = null;
+    if (decimalprsnt) {
+        decimalBtn.classList.toggle("decimalpresent");
+    }
 });
 
 let display = function(button) {
@@ -197,6 +224,9 @@ numButtons.forEach((button) => {
         if (onScreen.textContent.length < 10) {
             if (lastPressed) {
                 onScreen.textContent = "";
+                if (decimalprsnt) {
+                    decimalBtn.classList.toggle("decimalpresent");
+                }
             }
         if (lastPressed && lastPressed != equalsBtn) {       
         lastPressed.classList.toggle("active");

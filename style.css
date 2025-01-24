@@ -80,3 +80,7 @@ body {
 .active {
     background-color: lightgray;
 }
+
+.decimalpresent {
+    background-color: rgb(65, 107, 108);
+}
