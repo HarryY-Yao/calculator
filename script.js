@@ -221,7 +221,7 @@ let display = function(button) {
 
 numButtons.forEach((button) => {
     button.addEventListener("click", () =>{
-        if (onScreen.textContent.length < 10) {
+        if (onScreen.textContent.length < 9) {
             if (lastPressed) {
                 onScreen.textContent = "";
                 if (decimalprsnt) {
