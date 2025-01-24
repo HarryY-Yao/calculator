@@ -76,3 +76,7 @@ body {
 #AC {
     background-color: darkorange;
 }
+
+.active {
+    background-color: lightgray;
+}
