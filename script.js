@@ -201,6 +201,7 @@ equalsBtn.addEventListener("click", () => {
     lastPressed = equalsBtn;
     if (decimalprsnt) {
         decimalBtn.classList.toggle("decimalpresent");
+        decimalprsnt = false;
     }
 }});
 
@@ -211,6 +212,7 @@ clear.addEventListener("click", () => {
     operation = null;
     if (decimalprsnt) {
         decimalBtn.classList.toggle("decimalpresent");
+        decimalprsnt = false;
     }
 });
 
@@ -226,6 +228,7 @@ numButtons.forEach((button) => {
                 onScreen.textContent = "";
                 if (decimalprsnt) {
                     decimalBtn.classList.toggle("decimalpresent");
+                    decimalprsnt = false;
                 }
             }
         if (lastPressed && lastPressed != equalsBtn) {       
