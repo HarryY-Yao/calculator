@@ -22,4 +22,47 @@ let operate = function(x, y, operation) {
     return operation(x, y);
 }
 
-console.log(operate(1, 2, add));
+const buttons = document.querySelectorAll(".btn");
+const numButtons = document.querySelectorAll(".num-btn");
+const onScreen = document.querySelector(".on-screen");
+const clear = document.querySelector("#AC");
+
+clear.addEventListener("click", () => {
+    onScreen.textContent = ""
+});
+
+let display = function(button) {
+    onScreen.textContent += button.textContent
+}
+
+
+numButtons.forEach((button) => {
+
+    button.addEventListener("click", () =>{
+        if (onScreen.textContent.length < 10)
+        display(button);
+    });
+
+
+});
+
+buttons.forEach((button) => {
+    button.addEventListener("mouseenter", () => {
+        button.style.backgroundColor = "lightgray";
+
+    button.addEventListener("mouseleave", () => {
+        button.style.backgroundColor = "";
+    });
+
+    button.addEventListener("mousedown", () => {
+        button.style.cssText = "border: 2px solid black"
+        button.style.backgroundColor = "lightgray";
+    });
+
+    button.addEventListener("mouseup", () => {
+        button.style.cssText = "border: 0;"
+        button.style.backgroundColor = "lightgray";
+    });
+      
+    });
+});
