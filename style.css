@@ -1,0 +1,78 @@
+body {
+    background-color: darksalmon;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.shadow {
+    height: 720px;
+    width: 500px;
+    border-radius: 35px;
+    padding-left: 2px;
+    padding-top: 2px;
+    background-color: rgb(200, 200, 200);
+}
+
+.calculator-body {
+    background-color: rgb(231, 228, 228);
+    width: 490px;
+    height: 700px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5px;
+}
+
+.screen {
+    background-color:rgb(197, 197, 197);
+    border-radius: 20px;
+    width: 410px;
+    height: 180px;
+    margin: 15px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.on-screen {
+    margin-top: auto;
+    color: rgb(84, 84, 84);
+    font-weight: 700;
+    font-size: 70px;
+    padding: 3px;
+    padding-bottom: 5px;
+    padding-right: 5px;
+}
+
+.buttons {
+    margin: 10px;
+    margin-top: 2px;
+}
+
+
+.btn {
+    height: 90px;
+    width: 90px;
+    border-radius: 15px;
+    border: 0;
+    background-color: cadetblue;
+    color: white;
+    font-weight: 700;
+    font-size: 30px;
+    margin: 2px;
+}
+
+.row1 {
+    display: flex;
+    justify-content: right;
+    margin-bottom: 5px;
+}
+
+#AC {
+    background-color: darkorange;
+}
