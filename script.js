@@ -17,8 +17,9 @@ let divide = function(x, y) {
 let number1;
 let number2;
 let operation;
+let lastPressed;
 
-let operate = function(x, y, operation) {
+let operate = function(x = 0, y = 0, operation = add) {
     return operation(x, y);
 }
 
@@ -35,6 +36,13 @@ const equalsBtn = document.querySelector("#equals")
 
 
 addBtn.addEventListener("click", () => {
+    if (!(Number(isNaN(onScreen.textContent)))) {
+    if (lastPressed == divideBtn || lastPressed == multiplyBtn || lastPressed == subtractBtn) {
+        lastPressed = addBtn;
+        operation = add;
+    }
+    
+    if (lastPressed != addBtn) {
     if (operation) {
         number2 = Number(onScreen.textContent);
 
@@ -44,58 +52,109 @@ addBtn.addEventListener("click", () => {
     }
     
     operation = add;
+    if (lastPressed && lastPressed != equalsBtn) {
+        lastPressed.classList.toggle("active");
+    }
+    lastPressed = addBtn;
+    lastPressed.classList.toggle("active");
     
     if (onScreen.textContent.length > 0) {
         number1 = Number(onScreen.textContent);
     }
+}}
 });
 
 subtractBtn.addEventListener("click", () => {
-    if (operation) {
-        number2 = Number(onScreen.textContent);
-        onScreen.textContent = operate(number1, number2, operation);
-        number1 = undefined;
-        number2 = undefined;
+    if (!(Number(isNaN(onScreen.textContent)))) {
+    if (lastPressed == divideBtn || lastPressed == multiplyBtn || lastPressed == addBtn) {
+        lastPressed = subtractBtn;
+        operation = subtract;
     }
+
+
+    if (lastPressed != subtractBtn) {
+        if (operation) {
+            number2 = Number(onScreen.textContent);
     
-    operation = subtract;
-    
-    if (onScreen.textContent.length > 0) {
-        number1 = Number(onScreen.textContent);
-    }
+            onScreen.textContent = operate(number1, number2, operation);
+            number1 = undefined;
+            number2 = undefined;
+        }
+        
+        operation = subtract;
+        if (lastPressed && lastPressed != equalsBtn) {
+            lastPressed.classList.toggle("active");
+        }
+        lastPressed = subtractBtn;
+        lastPressed.classList.toggle("active");
+        
+        if (onScreen.textContent.length > 0) {
+            number1 = Number(onScreen.textContent);
+        }
+    }}
 });
 
 divideBtn.addEventListener("click", () => {
-    if (operation) {
-        number2 = Number(onScreen.textContent);
-        onScreen.textContent = operate(number1, number2, operation);
-        number1 = undefined;
-        number2 = undefined;
+    if (!(Number(isNaN(onScreen.textContent)))) {
+    if (lastPressed == addBtn || lastPressed == multiplyBtn || lastPressed == subtractBtn) {
+        lastPressed = divideBtn;
+        operation = divide;
     }
 
-    operation = divide;
+
+    if (lastPressed != divideBtn) {
+        if (operation) {
+            number2 = Number(onScreen.textContent);
     
-    if (onScreen.textContent.length > 0) {
-        number1 = Number(onScreen.textContent);
-    }
+            onScreen.textContent = operate(number1, number2, operation);
+            number1 = undefined;
+            number2 = undefined;
+        }
+        
+        operation = divide;
+        if (lastPressed && lastPressed != equalsBtn) {
+            lastPressed.classList.toggle("active");
+        }
+
+        lastPressed = divideBtn;
+        lastPressed.classList.toggle("active");
+        if (onScreen.textContent.length > 0) {
+            number1 = Number(onScreen.textContent);
+        }
+    }}
 });
 
 multiplyBtn.addEventListener("click", () => {
-    if (operation) {
-        number2 = Number(onScreen.textContent);
-        onScreen.textContent = operate(number1, number2, operation);
-        number1 = undefined;
-        number2 = undefined;
+    if (!(Number(isNaN(onScreen.textContent)))) {
+    if (lastPressed == divideBtn || lastPressed == addBtn || lastPressed == subtractBtn) {
+        lastPressed = multiplyBtn;
+        operation = multiply;
     }
     
-    operation = multiply;
     
-    if (onScreen.textContent.length > 0) {
-        number1 = Number(onScreen.textContent);
-    }
+    if (lastPressed != multiplyBtn) {
+        if (operation) {
+            number2 = Number(onScreen.textContent);
+    
+            onScreen.textContent = operate(number1, number2, operation);
+            number1 = undefined;
+            number2 = undefined;
+        }
+        if (lastPressed && lastPressed != equalsBtn) {
+            lastPressed.classList.toggle("active");
+        }
+        
+        operation = multiply;
+        lastPressed = multiplyBtn;
+        lastPressed.classList.toggle("active");
+        if (onScreen.textContent.length > 0) {
+            number1 = Number(onScreen.textContent);
+        }
+    }}
 });
 
 equalsBtn.addEventListener("click", () => {
+    if (lastPressed != equalsBtn) {
     number2 = Number(onScreen.textContent);
 
     if (number2 == 0 && operation == divide) {
@@ -103,22 +162,29 @@ equalsBtn.addEventListener("click", () => {
         
     } else {
     let result = operate(number1, number2, operation) + ""
-    if (result.length > 9) {
+    
+    if (Number(result) > 999999999) {
+        result = Number(result).toExponential(2)
+    
+    } else if (result.length > 9) {
         result = Math.round(Number(result) * 10 ** Math.abs(10 - result.length)) / 10 ** Math.abs(10 - result.length);
     }
     onScreen.textContent = result;
     }
+    if (lastPressed) {
+        lastPressed.classList.toggle("active");
+    }
     number1 = 0;
     number2 = 0;
     operation = null;
-});
+    lastPressed = equalsBtn;
+}});
 
 clear.addEventListener("click", () => {
     onScreen.textContent = "";
     number1 = 0;
     number2 = 0;
     operation = null;
-    storedValue = 0;
 });
 
 let display = function(button) {
@@ -127,17 +193,19 @@ let display = function(button) {
 
 
 numButtons.forEach((button) => {
-
     button.addEventListener("click", () =>{
         if (onScreen.textContent.length < 10) {
-            if (operation) {
+            if (lastPressed) {
                 onScreen.textContent = "";
             }
+        if (lastPressed && lastPressed != equalsBtn) {       
+        lastPressed.classList.toggle("active");
+        }
+        lastPressed = undefined;
         display(button)
     }
     });
-
-
+    
 });
 
 buttons.forEach((button) => {
