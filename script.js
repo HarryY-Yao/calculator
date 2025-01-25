@@ -70,7 +70,13 @@ addBtn.addEventListener("click", () => {
     if (operation) {
         number2 = Number(onScreen.textContent);
 
-        onScreen.textContent = operate(number1, number2, operation);
+        let result = operate(number1, number2, operation);
+
+        if (Number(result) > Math.abs(999999999)) {
+            result = Number(result).toExponential(2) 
+        }
+
+        onScreen.textContent = result;
         number1 = undefined;
         number2 = undefined;
     }
@@ -101,6 +107,13 @@ subtractBtn.addEventListener("click", () => {
     if (lastPressed != subtractBtn) {
         if (operation) {
             number2 = Number(onScreen.textContent);
+
+            let result = operate(number1, number2, operation);
+
+            if (Number(result) > Math.abs(999999999)) {
+                result = Number(result).toExponential(2) 
+            }
+
     
             onScreen.textContent = operate(number1, number2, operation);
             number1 = undefined;
@@ -133,8 +146,27 @@ divideBtn.addEventListener("click", () => {
     if (lastPressed != divideBtn) {
         if (operation) {
             number2 = Number(onScreen.textContent);
+            let result = operate(number1, number2, operation) + "";
+            
+            if (Number(result) > Math.abs(999999999)) {
+                result = Number(result).toExponential(2)
+            
+            } else if (result.length > 9) {
+                if (Number(result) < Math.abs(9)) {
+                    result = Math.round((Number(result) * 10 ** 7)) / 10 ** 7;
+                } else if (Number(result) < Math.abs(100) && Number(result) >= Math.abs(10)) {
+                    result = Math.round((Number(result) * 10 ** 6)) / 10 ** 6;
+                } else if (Number(result) < Math.abs(1000) && Number(result) >= Math.abs(100)) {
+                    result = Math.round((Number(result) * 10 ** 5)) / 10 ** 5;
+                } else if (Number(result) < Math.abs(10000) && Number(result) >= 10000) {
+                    result = Math.round((Number(result) * 10 ** 4)) / 10 ** 4;
+                } else {
+                    result = Math.round((Number(result) * 10)) / 10;
+                }
+            }
     
-            onScreen.textContent = operate(number1, number2, operation);
+
+            onScreen.textContent = result;
             number1 = undefined;
             number2 = undefined;
         }
@@ -165,8 +197,26 @@ multiplyBtn.addEventListener("click", () => {
     if (lastPressed != multiplyBtn) {
         if (operation) {
             number2 = Number(onScreen.textContent);
+            let result = operate(number1, number2, operation) + "";
+
+            if (Number(result) > Math.abs(999999999)) {
+                result = Number(result).toExponential(2)
+            
+            } else if (result.length > 9) {
+                if (Number(result) < Math.abs(9)) {
+                    result = Math.round((Number(result) * 10 ** 7)) / 10 ** 7;
+                } else if (Number(result) < Math.abs(100) && Number(result) >= Math.abs(10)) {
+                    result = Math.round((Number(result) * 10 ** 6)) / 10 ** 6;
+                } else if (Number(result) < Math.abs(1000) && Number(result) >= Math.abs(100)) {
+                    result = Math.round((Number(result) * 10 ** 5)) / 10 ** 5;
+                } else if (Number(result) < Math.abs(10000) && Number(result) >= 10000) {
+                    result = Math.round((Number(result) * 10 ** 4)) / 10 ** 4;
+                } else {
+                    result = Math.round((Number(result) * 10)) / 10;
+                }
+            }
     
-            onScreen.textContent = operate(number1, number2, operation);
+            onScreen.textContent = result;
             number1 = undefined;
             number2 = undefined;
         }
@@ -198,7 +248,17 @@ equalsBtn.addEventListener("click", () => {
         result = Number(result).toExponential(2)
     
     } else if (result.length > 9) {
-        result = Math.round((Number(result) * 10 ** Math.abs(10 - result.length)) / 10 ** Math.abs(10 - result.length));
+        if (Number(result) < Math.abs(9)) {
+            result = Math.round((Number(result) * 10 ** 7)) / 10 ** 7;
+        } else if (Number(result) < Math.abs(100) && Number(result) >= Math.abs(10)) {
+            result = Math.round((Number(result) * 10 ** 6)) / 10 ** 6;
+        } else if (Number(result) < Math.abs(1000) && Number(result) >= Math.abs(100)) {
+            result = Math.round((Number(result) * 10 ** 5)) / 10 ** 5;
+        } else if (Number(result) < Math.abs(10000) && Number(result) >= 10000) {
+            result = Math.round((Number(result) * 10 ** 4)) / 10 ** 4;
+        } else {
+            result = Math.round((Number(result) * 10)) / 10;
+        }
     }
     onScreen.textContent = result;
     }
@@ -235,7 +295,7 @@ let display = function(button) {
 
 numButtons.forEach((button) => {
     button.addEventListener("click", () =>{
-        if (onScreen.textContent.length <= 10) {
+        if (onScreen.textContent.length < 10 || ((onScreen.textContent.length == 10) && operation)) {
             if (lastPressed) {
                 onScreen.textContent = "";
                 if (decimalprsnt) {
